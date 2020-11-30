@@ -6,8 +6,7 @@ public class GameStageManger : MonoSingleton<GameStageManger>
 {
     [SerializeField]
     private List<StageInfoContainer> stageList = new List<StageInfoContainer>();
-    [SerializeField]
-    private GameObject playerObj = null;
+    private List<IStageChage> stageChangeObservers = new List<IStageChange>();
     public int FinishedStageCnt
     {
         private set;
@@ -21,12 +20,9 @@ public class GameStageManger : MonoSingleton<GameStageManger>
 
     public void MoveStage()
     {
-
-    }
-
-    private void SetObjectPositionsOf(StageInfoContainer stage)
-    {
-        playerObj.transform.position = stage.PlayerSpawnPos;
+        var nextStage = GetRandomStage();
+        foreach (var observers in stageChangeObservers)
+            observers.ChangeStage(nextStage);
     }
 
     private StageInfoContainer GetRandomStage()

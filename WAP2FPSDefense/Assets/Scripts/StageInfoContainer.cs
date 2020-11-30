@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "StageInfo",menuName = "Scriptable Object/Stage Info")]
-class StageInfoContainer : ScriptableObject
+public class StageInfoContainer : ScriptableObject
 {
     [SerializeField]
     private Vector3 playerSpawnPos;
