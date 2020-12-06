@@ -1,4 +1,4 @@
-﻿public interface IStageChage
+﻿public interface IStageChange
 {
-    public void ChagneStage(StageInfoContainer stage);
+    void ChagneStage(StageInfoContainer stage);
 }

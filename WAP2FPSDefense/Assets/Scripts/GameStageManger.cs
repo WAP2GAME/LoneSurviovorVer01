@@ -6,7 +6,7 @@ public class GameStageManger : MonoSingleton<GameStageManger>
 {
     [SerializeField]
     private List<StageInfoContainer> stageList = new List<StageInfoContainer>();
-    private List<IStageChage> stageChangeObservers = new List<IStageChange>();
+    private List<IStageChange> stageChangeObservers = new List<IStageChange>();
     public int FinishedStageCnt
     {
         private set;
