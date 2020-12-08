@@ -10,6 +10,8 @@ public class StageInfoContainer : ScriptableObject
     private Vector3 playerSpawnPos;
     [SerializeField]
     private Vector3 defendObjSpawnPos;
+    [SerializeField]
+    private GameObject stagePlane;
 
     [SerializeField]
     private List<Vector3> enemySpawnPosList = new List<Vector3>(10);
