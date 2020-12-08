@@ -56,7 +56,7 @@ public abstract class CloseWeaponController : MonoBehaviour
             if (CheckObject())
             {
                 if (hitInfo.transform.tag == "Target")
-                    hitInfo.transform.GetComponent<EntityStats>().TakeDamage(100);
+                    hitInfo.transform.GetComponent<ObjectStat>().TakeDamage(100);
 
 
                 isSwing = false;

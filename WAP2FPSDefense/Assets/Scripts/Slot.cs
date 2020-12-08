@@ -31,7 +31,7 @@ public class Slot : MonoBehaviour
     {
         item = _item;
         itemCount = _count;
-        itemIcon.sprite = item.itemIcon;
+        itemIcon.sprite = item.ItemIcon;
 
             go_CountImage.SetActive(true);
             text_Count.text = itemCount.ToString();

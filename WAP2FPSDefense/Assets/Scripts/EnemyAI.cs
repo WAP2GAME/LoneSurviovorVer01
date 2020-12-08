@@ -38,8 +38,8 @@ public class EnemyAI : MonoBehaviour
         targetAttack = false;
         isDead = false;
 
-        Hitrange += StageManager.instance.AddZombieHp;
-        EnemyStr += StageManager.instance.AddZombiePower;
+        Hitrange += StageManager.Instance.AddZombieHp;
+        EnemyStr += StageManager.Instance.AddZombiePower;
 
     }
 
@@ -63,13 +63,13 @@ public class EnemyAI : MonoBehaviour
 
     private IEnumerator ZombieAttack()
     {
-        if(Vector3.Distance(transform.position, StageManager.instance.Player.transform.position) < 50) // 사정거리 안에 플레이어가 들어온다면
+        if(Vector3.Distance(transform.position, StageManager.Instance.Player.transform.position) < 50) // 사정거리 안에 플레이어가 들어온다면
         {
-            target = StageManager.instance.Player;
+            target = StageManager.Instance.Player;
         }
         else
         {
-            target = StageManager.instance.Nexus;
+            target = StageManager.Instance.Nexus;
         }
 
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(target.transform.position - transform.position), 0.1f);

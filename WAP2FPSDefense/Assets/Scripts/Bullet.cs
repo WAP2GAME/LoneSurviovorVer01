@@ -51,7 +51,7 @@ public class Bullet : MonoBehaviour
         if (col.gameObject.tag == "Target")
         {
             col.gameObject.SetActive(true);
-            col.GetComponent<EntityStat>().TakeDamage(99999);
+            col.GetComponent<ObjectStat>().TakeDamage(99999);
             if (gameObject.activeSelf)
                 gameObject.SetActive(false);
         }
