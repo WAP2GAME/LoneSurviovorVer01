@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
-    public int score;
-    public int coin;
+    public static int score;
+    public static int coin;
 
     public Text scoreText;
     public Text coinText;
