@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoSingleton<Inventory>
 {
 
     public static bool inventoryActivated = false;
@@ -15,7 +15,7 @@ public class Inventory : MonoBehaviour
     private GameObject go_SlotsParent;
 
     // 슬롯들.
-    private Slot[] slots;
+    private Slot[] slots = new Slot[50];
 
 
     // Use this for initialization
