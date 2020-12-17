@@ -4,32 +4,24 @@ using UnityEngine;
 
 
 
-public enum EBodyParts
-{
-    Head,
-    Leg,
-    Arm,
-    Body
-}
+
+
 class EnemyStat : ObjectStat
 {
     [SerializeField]
     private Stat overallStat;
     [SerializeField]
-    private Dictionary<EBodyParts, Stat> bodyPartStats = new Dictionary<EBodyParts, Stat>();
+    private ObjectStat head;
+    [SerializeField]
+    private ObjectStat leg;
+    [SerializeField]
+    private ObjectStat arm;
+    [SerializeField]
+    private ObjectStat body;
 
-    public override void TakeDamage(float damage, EBodyParts hitParts)
+    public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
-        Stat hitPart = bodyPartStats[hitParts];
-        hitPart.TakeDamage(damage);
-
-        AffectBodyInjury(hitParts);
-    }
-
-    private void AffectBodyInjury(EBodyParts part)
-    {
-
     }
 }
 

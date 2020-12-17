@@ -98,7 +98,7 @@ public class ObjectStat : MonoBehaviour
 {
     #region variables
     [SerializeField]
-    private Stat stat;
+    protected Stat stat;
 
     public float HealthPoint
     {
@@ -117,10 +117,6 @@ public class ObjectStat : MonoBehaviour
             gameObject.SetActive(false);
     }
 
-    public virtual void TakeDamage(float damage, EBodyParts hitPart)
-    {
-        TakeDamage(damage);
-    }
 
     public virtual void TakeHeal(int heal)
     {
@@ -137,7 +133,7 @@ public class ObjectStat : MonoBehaviour
         stat.AdjustHealthPoint(ratio);
     }
     #endregion
-    private void OnEnable()
+    protected void OnEnable()
     {
         stat.InitStats();
     }

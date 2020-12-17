@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScoreBoardManager : MonoBehaviour
+public class ScoreBoardManager : MonoBehaviour, IStageEndObserver
 {
     [Header("Buttons")]
     [SerializeField]
@@ -36,5 +36,11 @@ public class ScoreBoardManager : MonoBehaviour
             resultText.text = "Game Over";
         shopBtn.gameObject.SetActive(isWon);
         stageJumpBtn.gameObject.SetActive(isWon);
+    }
+
+    public void EndStage()
+    {
+        var lastStage = GameStageManger.Instance.CurrentStage;
+
     }
 }
