@@ -1,24 +1,44 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Security.Claims;
-using System.Runtime.InteropServices.ComTypes;
+using System.Collections.Generic;
+//using System.Security.Claims;
+//using System.Runtime.InteropServices.ComTypes;
 
 public class SpawnManager : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab;
-    [SerializeField] private float spawnDelay;
+    [SerializeField] private List<GameObject> ZombieList;
+    [SerializeField] private float SpawnDelay;
     private bool isSpawn = true;
-    float spawnTimer = 0f;
-    WaitForSeconds seconds;
-
-    Vector3[] positions = new Vector3[6];
+    
+    //private GameObject Zombies;
+    //Vector3[] positions = new Vector3[6];
     private void Start()
     {
-        seconds = new WaitForSeconds(spawnDelay); //  spawndelay를 인자로받아서 waitforseconds 객체가 생성/    
-        CreatePositions();
-        StartCoroutine(spawnEnemy());
+        StartCoroutine(EnemySpawn());
+        //CreatePositions();
     }
-    private void CreatePositions()
+    private IEnumerator EnemySpawn()
+    {
+        while (true)
+        {
+            float X = Random.Range(-100, 100);
+            float Y = Random.Range(0, 5);
+            float Z = Random.Range(-100, 100);
+
+            if (isSpawn)
+            {
+                // int rand = Random.Range(0, positions.Length);
+                GameObject Zombies = Instantiate(ZombieList[Random.Range(0,ZombieList.Count-1)], new Vector3(X, Y, Z), Quaternion.identity); //게임오브젝트 생성함수생성함수
+                Zombies.SetActive(true);
+                Debug.Log(Zombies.name);
+                Debug.Log(Zombies.activeSelf);
+                Zombies.GetComponent<EnemyAI>().ZombieSetting();
+            }
+        yield return new WaitForSeconds(SpawnDelay);
+        } 
+        
+    }
+    /*private void CreatePositions()
     {
         float viewPosY = Random.Range(0, 10);
         float viewPosX = Random.Range(0, 10);
@@ -31,22 +51,5 @@ public class SpawnManager : MonoBehaviour
             positions[i] = worldPos;
             print(worldPos);
         }
-    }
-
-    private IEnumerator spawnEnemy()
-    {
-        while (true)
-
-        {
-            if (isSpawn == true)
-            {
-                int rand = Random.Range(0, positions.Length);
-                GameObject enemy = Instantiate(enemyPrefab, 
-                                new Vector3(Random.Range(-100, 100), Random.Range(0, 5), Random.Range(-100, 100)), Quaternion.identity); //게임오브젝트 생성함수생성함수
-                enemy.GetComponent<EnemyAI>().ZombieSetting();
-
-            }
-            yield return seconds;
-        }
-    }
+    }*/
 }
