@@ -103,6 +103,7 @@ public class GunController : MonoBehaviour
         }
     }
 
+    //
 
     // 발사 전 계산.
     private void Fire()
