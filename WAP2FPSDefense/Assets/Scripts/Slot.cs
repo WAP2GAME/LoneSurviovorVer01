@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Slot : MonoBehaviour
+[Serializable]
+public class Slot
 {
 
     public ItemBase item; // 획득한 아이템.
