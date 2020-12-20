@@ -42,8 +42,7 @@ public class GameStageManger : MonoSingleton<GameStageManger> , IStageChangeNoti
         defendObj.SetActive(true);
         player.transform.position = nextStage.PlayerSpawnPos;
         player.SetActive(true);
-        foreach (var observers in stageChangeObservers)
-            observers.ChangeStage(nextStage);
+        Notify(nextStage);
     }
 
     public void Notify(StageInfoContainer stage)
