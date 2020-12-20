@@ -3,9 +3,7 @@
 
 public interface IStageEndNotifier
 {
-    void Notify();
-    bool AddObserver(IStageEndObserver observer);
-    void DeleteObserver(IStageEndObserver observer);
+    void NotifyEnd();
 }
 
 public interface IStageEndObserver
