@@ -2,16 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameStageManger : MonoSingleton<GameStageManger>
+public class GameStageManger : MonoSingleton<GameStageManger> , IStageChangeNotifier , IStageEndObserver
 {
     [SerializeField]
     private List<StageInfoContainer> stageList = new List<StageInfoContainer>();
-    private List<IStageChange> stageChangeObservers = new List<IStageChange>();
+    private List<IStageChangeObserver> stageChangeObservers = new List<IStageChangeObserver>();
+
+    [SerializeField]
+    private GameObject player = null;
+    [SerializeField]
+    private GameObject defendObj = null;
+
+    public GameObject Player
+    {
+        get => player;
+    }
+    public GameObject DefendObj
+    {
+        get => defendObj;
+    }
+
     public int FinishedStageCnt
     {
         private set;
         get;
     }
+
     public StageInfoContainer CurrentStage
     {
         private set;
@@ -21,8 +37,25 @@ public class GameStageManger : MonoSingleton<GameStageManger>
     public void MoveStage()
     {
         var nextStage = GetRandomStage();
+        CurrentStage = nextStage;
+        defendObj.transform.position = nextStage.DefendObjSpawnPos;
+        defendObj.SetActive(true);
+        player.transform.position = nextStage.PlayerSpawnPos;
+        player.SetActive(true);
         foreach (var observers in stageChangeObservers)
             observers.ChangeStage(nextStage);
+    }
+
+    public void Notify(StageInfoContainer stage)
+    {
+        foreach (var a in stageChangeObservers)
+            a.ChangeStage(stage);
+    }
+
+    public void EndStage()
+    {
+        defendObj.SetActive(false);
+        player.SetActive(false);
     }
 
     private StageInfoContainer GetRandomStage()
@@ -46,5 +79,16 @@ public class GameStageManger : MonoSingleton<GameStageManger>
     {
         foreach (var stage in stageList)
             stage.IsFinished = false;
+    }
+
+
+    private void Awake()
+    {
+        var observers = FindObjectsOfType(typeof(IStageChangeObserver));
+        foreach (var a in observers)
+        {
+            if(a is IStageChangeObserver)
+               stageChangeObservers.Add(a as IStageChangeObserver);
+        }
     }
 }
