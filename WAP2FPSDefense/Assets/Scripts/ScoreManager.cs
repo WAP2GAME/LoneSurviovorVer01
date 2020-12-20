@@ -3,24 +3,60 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreManager : MonoSingleton<ScoreManager>
 {
-    public static int score;
-    public static int coin;
+    private int score = 0;
+    private int coin = 0;
 
-    public Text scoreText;
-    public Text coinText;
+    [SerializeField]
+    private Text scoreText;
+    [SerializeField]
+    private Text coinText;
 
-    void Start()
+    public int Score
     {
-        score = 0;
-        coin = 0;
+        get => score;
     }
 
-    void Update()
+    public int Coin
     {
-        scoreText.text = "Score: " + score;
-        coinText.text = "Coin: " + coin;
+        get => coin;
+    }
 
+
+    private void RefreshUI()
+    {
+        scoreText.text = "Score : "+score;
+        coinText.text = "Coint : "+coin;
+    }
+    public void AddScore(int score)
+    {
+        if (score < 0)
+            return;
+
+        this.score += score;
+        RefreshUI();
+    }
+
+    public bool AddCoin(int coin)
+    {
+        if (coin + this.coin >= 0)
+        {
+            this.coin += coin;
+            RefreshUI();
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsPurchasable(int coin)
+    {
+        return this.coin - coin >=0;
+    }
+
+    public void InitScore()
+    {
+        score = 0;
+        RefreshUI();
     }
 }

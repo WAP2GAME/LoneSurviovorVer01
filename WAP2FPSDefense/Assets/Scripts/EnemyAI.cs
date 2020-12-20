@@ -107,10 +107,9 @@ public class EnemyAI : MonoBehaviour
         {
             yield return new WaitForSeconds(2.0f);
 
-            ScoreManager.score += 10;
-            ScoreManager.coin += 10;
-            Debug.Log("destroy");
-            GameObject.Destroy(this.gameObject);
+            ScoreManager.Instance.AddScore(10);
+            ScoreManager.Instance.AddCoin(10);
+            Destroy(gameObject);
             yield break;
         }
     }
