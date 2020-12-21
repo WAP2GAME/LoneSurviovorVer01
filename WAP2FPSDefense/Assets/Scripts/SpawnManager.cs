@@ -1,55 +1,67 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-//using System.Security.Claims;
-//using System.Runtime.InteropServices.ComTypes;
 
-public class SpawnManager : MonoBehaviour
+public class SpawnManager : MonoBehaviour, IStageChangeObserver, IStageEndObserver
 {
     [SerializeField] private List<GameObject> ZombieList;
     [SerializeField] private float SpawnDelay;
+
+    public Vector3 vector;
     private bool isSpawn = true;
-    
-    //private GameObject Zombies;
-    //Vector3[] positions = new Vector3[6];
+    private bool stageEndSpawn = true;
+    public List<Vector3> spawnpos = new List<Vector3>();
+
     private void Start()
     {
         StartCoroutine(EnemySpawn());
-        //CreatePositions();
+    }
+    public void Update()
+    {
+        for (int i = 0; i < spawnpos.Count; i++)
+        {
+            vector = spawnpos[i];
+        }
+    }
+
+    public void ChangeStage(StageInfoContainer stage)
+    {
+        spawnpos.Clear();
+        var newList = stage.EnemySpawnPosList;
+        for (int q = 0; q < newList.Count; q++)
+        {
+            spawnpos[q] = newList[q]; 
+        }
+        Debug.Log(newList.Count);
+    }
+
+    public void EndStage()
+    {
+        stageEndSpawn = true;
+        if (stageEndSpawn)
+        {
+
+        }
+        
     }
     private IEnumerator EnemySpawn()
     {
+        int i = 0;
+
         while (true)
         {
-            float X = Random.Range(-100, 100);
-            float Y = Random.Range(0, 5);
-            float Z = Random.Range(-100, 100);
-
-            if (isSpawn)
+            if (isSpawn && !stageEndSpawn)
             {
-                // int rand = Random.Range(0, positions.Length);
-                GameObject Zombies = Instantiate(ZombieList[Random.Range(0,ZombieList.Count-1)], new Vector3(X, Y, Z), Quaternion.identity); //게임오브젝트 생성함수생성함수
-                Zombies.SetActive(true);
-                Debug.Log(Zombies.name);
-                Debug.Log(Zombies.activeSelf);
+                GameObject Zombies = Instantiate(ZombieList[Random.Range(0, ZombieList.Count - 1)], spawnpos[i], Quaternion.identity);
                 Zombies.GetComponent<EnemyAI>().ZombieSetting();
+               if (++i % spawnpos.Count == 0)
+                {
+                    i = 0;
+                }
             }
+
         yield return new WaitForSeconds(SpawnDelay);
         } 
-        
     }
-    /*private void CreatePositions()
-    {
-        float viewPosY = Random.Range(0, 10);
-        float viewPosX = Random.Range(0, 10);
-        for (int i = 0; i < positions.Length; i++)
-        {
-            viewPosX = Random.Range(0, 10);
-            Vector3 viewPos = new Vector3(viewPosX, viewPosY, 0);
-            Vector3 worldPos = Camera.main.ViewportToWorldPoint(viewPos);  //뷰포트를 월드좌표로 바꾸어주는 함수
-            worldPos.z = 0f;
-            positions[i] = worldPos;
-            print(worldPos);
-        }
-    }*/
+
 }
