@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using System;
 
 
 public class StageFlowManager : MonoSingleton<StageFlowManager> , IStageEndNotifier ,IStageChangeObserver
@@ -49,5 +51,45 @@ public class StageFlowManager : MonoSingleton<StageFlowManager> , IStageEndNotif
         foreach (var a in observers)
             if (a is IStageEndObserver)
                 stageEndObservers.Add(a as IStageEndObserver);
+    }
+}
+
+
+
+[Serializable]
+public class StageTimeCounter : IStageChangeObserver, IStageEndObserver
+{
+    private bool isPlaying = true;
+    public float RequireTime
+    {
+        private set;
+        get;
+    }
+    public float Count
+    {
+        private set;
+        get;
+    }
+
+
+    public void ChangeStage(StageInfoContainer stage)
+    {
+        isPlaying = true;
+        RequireTime = stage.RequireSurviveTime;
+        Count = 0;
+    }
+
+    public void EndStage()
+    {
+        isPlaying = false;
+    }
+
+    public void UpdateTime()
+    {
+        if (!isPlaying)
+            return;
+        RequireTime -= Time.deltaTime;
+        RequireTime = RequireTime <= 0 ? 0 : RequireTime;
+        Count += Time.deltaTime;
     }
 }
