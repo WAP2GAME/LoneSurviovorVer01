@@ -1,11 +1,42 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 public class Inventory : MonoSingleton<Inventory>
 {
 
     public static bool inventoryActivated = false;
+
+    public int AmmoCnt
+    {
+        get;
+        set;
+    }
+
+    public int GetNumberofItem(string ItemName)
+    {
+        for(int i = 0;  i < slots.Length; i++)
+        {
+            if (slots[i] != null && slots[i].item.ItemName == ItemName)
+            { 
+                return slots[i].itemCount;
+            }
+        }
+        return -1;
+    }
+
+    public Slot GetSlot(string ItemName)
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i] != null && slots[i].item.ItemName == ItemName)
+            {
+                return slots[i];
+            }
+        }
+        return null;
+    }
 
 
     // 필요한 컴포넌트
@@ -15,8 +46,9 @@ public class Inventory : MonoSingleton<Inventory>
     private GameObject go_SlotsParent;
 
     // 슬롯들.
-    private Slot[] slots = new Slot[50];
+    public Slot[] slots = new Slot[50];
 
+    public int carryBulletCount; // 현재 소유하고 있는 총알 개수.
 
     // Use this for initialization
     void Start()

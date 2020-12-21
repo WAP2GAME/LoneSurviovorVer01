@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-
+using UnityEngine.UI;
 using System.Security.Cryptography;
 using UnityEngine;
 
@@ -15,11 +15,17 @@ public class GunController : MonoBehaviour
     [SerializeField]
     public Gun currentGun;
 
+    public Slot CurrentBullet;
+    private Slot ItemCount;
+
 
     // 연사 속도 계산
     private float currentFireRate;
 
-
+    public int reloadBulletCount; // 총알 재정전 개수.
+    public int currentBulletCount; // 현재 탄알집에 남아있는 총알의 개수.
+    public int maxBulletCount; // 최대 소유 가능 총알 개수.
+   
 
     // 상태 변수
     private bool isReload = false;
@@ -76,6 +82,12 @@ public class GunController : MonoBehaviour
 
     void Update()
     {
+        if (CurrentBullet == null)
+        {
+            CurrentBullet = Inventory.Instance.GetSlot("Bullet");
+        }
+
+
         if (isActivate)
         {
             GunFireRateCalc();
@@ -98,6 +110,8 @@ public class GunController : MonoBehaviour
     private void TryFire()
     {
         if (Input.GetButton("Fire1") && currentFireRate <= 0 && !isReload)
+            if (CurrentBullet = null)
+                if (ItemCount.itemCount > 0)
         {
             Fire();
         }
@@ -110,7 +124,7 @@ public class GunController : MonoBehaviour
     {
         if (!isReload)
         {
-            if (currentGun.currentBulletCount > 0)
+            if (currentBulletCount > 0)
                 Shoot();
             else
             {
@@ -127,7 +141,7 @@ public class GunController : MonoBehaviour
     {
         Debug.Log(gameObject);
         theCrosshair.FireAnimation();
-        currentGun.currentBulletCount--;
+        currentBulletCount--;
         currentFireRate = currentGun.fireRate; // 연사 속도 재계산.
         PlaySE(currentGun.fire_Sound);
         currentGun.muzzleFlash.Play();
@@ -161,7 +175,7 @@ public class GunController : MonoBehaviour
     // 재장전 시도
     private void TryReload()
     {
-        if (Input.GetKeyDown(KeyCode.R) && !isReload && currentGun.currentBulletCount < currentGun.reloadBulletCount)
+        if (Input.GetKeyDown(KeyCode.R) && !isReload && currentBulletCount < reloadBulletCount)
         {
             CancelFineSight();
             StartCoroutine(ReloadCoroutine());
@@ -180,27 +194,28 @@ public class GunController : MonoBehaviour
     // 재장전
     IEnumerator ReloadCoroutine()
     {
-        if (currentGun.carryBulletCount > 0)
+        
+
+        if (CurrentBullet.ToInt() > 0)
         {
             isReload = true;
 
-            currentGun.anim.SetTrigger("Reload");
+            currentGun.anim.SetTrigger("DoReload");
 
-
-            currentGun.carryBulletCount += currentGun.currentBulletCount;
-            currentGun.currentBulletCount = 0;
+            ItemCount.itemCount += ItemCount.itemCount;
+            currentBulletCount = 0;
 
             yield return new WaitForSeconds(currentGun.reloadTime);
 
-            if (currentGun.carryBulletCount >= currentGun.reloadBulletCount)
+            if (CurrentBullet.ToInt() >= reloadBulletCount)
             {
-                currentGun.currentBulletCount = currentGun.reloadBulletCount;
-                currentGun.carryBulletCount -= currentGun.reloadBulletCount;
+                currentBulletCount = reloadBulletCount;
+                ItemCount.itemCount -= reloadBulletCount;
             }
             else
             {
-                currentGun.currentBulletCount = currentGun.carryBulletCount;
-                currentGun.carryBulletCount = 0;
+                currentBulletCount = CurrentBullet.ToInt();
+                CurrentBullet = null;
             }
 
 
