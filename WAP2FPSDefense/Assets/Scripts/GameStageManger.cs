@@ -6,6 +6,8 @@ public class GameStageManger : MonoSingleton<GameStageManger> , IStageChangeNoti
 {
     [SerializeField]
     private List<StageInfoContainer> stageList = new List<StageInfoContainer>();
+    [SerializeField]
+    private List<GameObject> stageChangeObserverObjs;
     private List<IStageChangeObserver> stageChangeObservers = new List<IStageChangeObserver>();
 
     [SerializeField]
@@ -60,7 +62,10 @@ public class GameStageManger : MonoSingleton<GameStageManger> , IStageChangeNoti
     private StageInfoContainer GetRandomStage()
     {
         if (++FinishedStageCnt >= stageList.Count)
+        {
+            FinishedStageCnt = 0;
             EnableAllStage();
+        }
 
         StageInfoContainer stage = null;
         while(stage == null)
@@ -83,11 +88,11 @@ public class GameStageManger : MonoSingleton<GameStageManger> , IStageChangeNoti
 
     private void Awake()
     {
-        var observers = FindObjectsOfType(typeof(IStageChangeObserver));
-        foreach (var a in observers)
+        foreach (var a in stageChangeObserverObjs)
         {
-            if(a is IStageChangeObserver)
-               stageChangeObservers.Add(a as IStageChangeObserver);
+            var observer = a.GetComponent<IStageChangeObserver>();
+            if(observer is IStageChangeObserver)
+               stageChangeObservers.Add(observer as IStageChangeObserver);
         }
     }
 }
