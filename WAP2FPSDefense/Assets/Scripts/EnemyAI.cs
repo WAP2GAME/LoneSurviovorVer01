@@ -11,7 +11,7 @@ public class EnemyAI : MonoBehaviour
     private SearchComponent searchcomponent = null;
     public GameObject enemyTransform;
 
-    [SerializeField] private GameObject target;
+    [SerializeField] public GameObject target;
 
     //AttackTarget
     [SerializeField] private bool HitDamage; // 공격
@@ -24,6 +24,7 @@ public class EnemyAI : MonoBehaviour
     public float health;
     Animator anim;
 
+ 
 
     private void OnEnable()
     {
@@ -35,7 +36,6 @@ public class EnemyAI : MonoBehaviour
         anim = GetComponent<Animator>();
         targetAttack = false;
         isDead = false;
-
         Hitrange += ZombieManager.instance.AddZombieHP;
         EnemyStr += ZombieManager.instance.AddZombiePower;
         StartCoroutine(ZombieAttack());
@@ -47,8 +47,6 @@ public class EnemyAI : MonoBehaviour
         {
             Queue<GameObject> queue = searchcomponent.SearchedObjs;
             int cnt = queue.Count;
-            //Debug.Log(searchcomponent.SearchedObjs);
-            //Debug.Log(searchcomponent);
             for (int ix = 0; ix < cnt; ix++)
             {
                 try
@@ -85,7 +83,7 @@ public class EnemyAI : MonoBehaviour
             {
                 this.agent.isStopped = true;
                 GetComponent<Animator>().SetBool("isDead", true);
-                StartCoroutine(destroy());
+                //StartCoroutine(destroy());
 
             }
 
@@ -93,15 +91,15 @@ public class EnemyAI : MonoBehaviour
             {
                 anim.SetBool("TargetFind", false);
                 anim.SetBool("targetAttack", true);
+                GetComponent<ObjectStat>().TakeDamage(0.5f);
                 print("공격시작");
-
                 isPlayer = false;
                 yield break;
             }
             yield return new WaitForFixedUpdate();
         }
     }
-    IEnumerator destroy()
+    /*IEnumerator destroy()
     {
         while (true)
         {
@@ -113,7 +111,7 @@ public class EnemyAI : MonoBehaviour
             GameObject.Destroy(this.gameObject);
             yield break;
         }
-    }
+    }*/
     public void ZombieSetting()
     {
         StartCoroutine(ZombieAttack());
