@@ -2,29 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class ZombieManager :MonoBehaviour
+public class ZombieManager : MonoSingleton<ZombieManager>
 { 
     //private ZombieManager zombieManger;
-    private static ZombieManager Instance = null;
     public GameObject Player;
     public GameObject Nexus;
-    public static ZombieManager instance
-    {
-        get
-        {
-            return Instance;
-        }
-    }
-    private void Awake()
-    {
-        //zombieManger = ZombieManager.Instance;
-        if ( Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(this);
-        }
-        ZombieCount = GetComponent<StageTimeCounter>().Count;
-    }
     public int AddZombieHP;
     public int AddZombiePower;
     float ZombieCount;

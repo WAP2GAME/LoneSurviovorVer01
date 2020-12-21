@@ -36,8 +36,8 @@ public class EnemyAI : MonoBehaviour
         targetAttack = false;
         isDead = false;
 
-        Hitrange += ZombieManager.instance.AddZombieHP;
-        EnemyStr += ZombieManager.instance.AddZombiePower;
+        Hitrange += ZombieManager.Instance.AddZombieHP;
+        EnemyStr += ZombieManager.Instance.AddZombiePower;
         StartCoroutine(ZombieAttack());
 
     }
@@ -69,11 +69,11 @@ public class EnemyAI : MonoBehaviour
 
             if (isPlayer) // 플레이어가 감지 되었다면 
             {
-                target = ZombieManager.instance.Player;
+                target = ZombieManager.Instance.Player;
             }
             else
             {
-                target = ZombieManager.instance.Nexus;
+                target = ZombieManager.Instance.Nexus;
             }
 
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(target.transform.position - transform.position), 0.1f);
