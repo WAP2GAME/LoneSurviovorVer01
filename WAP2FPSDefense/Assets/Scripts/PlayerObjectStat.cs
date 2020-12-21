@@ -5,6 +5,8 @@ using UnityEngine;
 
 class PlayerObjectStat : ObjectStat , IStageEndNotifier 
 {
+    [SerializeField]
+    private List<GameObject> stageEndObserverObjs;
     private List<IStageEndObserver> stageEndObservers = new List<IStageEndObserver>();
     private bool IsGameOver(float damage)
     {
@@ -26,26 +28,15 @@ class PlayerObjectStat : ObjectStat , IStageEndNotifier
             a.EndStage();
     }
 
-    public bool AddObserver(IStageEndObserver observer)
-    {
-        if (stageEndObservers.Contains(observer))
-            return false;
-        stageEndObservers.Add(observer);
-        return true;
-    }
-
-    public void DeleteObserver(IStageEndObserver observer)
-    {
-
-    }
-
     protected new void OnEnable()
     {
         base.OnEnable();
-        var observer = FindObjectsOfType(typeof(IStageEndObserver));
-        foreach (var a in observer)
-            if(a is IStageEndObserver)
-               stageEndObservers.Add(a as IStageEndObserver);
+        foreach (var a in stageEndObserverObjs)
+        {
+            var observer = a.GetComponent<IStageEndObserver>();
+            if (observer != null)
+                stageEndObservers.Add(observer as IStageEndObserver);
+        }
     }
 }
 

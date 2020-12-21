@@ -42,7 +42,6 @@ public class ScoreBoardManager : MonoBehaviour, IStageEndObserver
     {
         gameObject.SetActive(true);
         var lastStage = GameStageManger.Instance.CurrentStage;
-        ScoreManager scoreManager = ScoreManager.Instance;
 
         SetResult(StageFlowManager.Instance.Count >= lastStage.RequireSurviveTime);
     }
