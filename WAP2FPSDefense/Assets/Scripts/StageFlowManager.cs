@@ -9,6 +9,8 @@ public class StageFlowManager : MonoSingleton<StageFlowManager> , IStageEndNotif
 {
     [SerializeField]
     private StageTimeCounter timeCounter;
+    [SerializeField]
+    private List<GameObject> stageEndObserverObjs;
     private List<IStageEndObserver> stageEndObservers = new List<IStageEndObserver>();
 
     public float RequireTime
@@ -20,23 +22,34 @@ public class StageFlowManager : MonoSingleton<StageFlowManager> , IStageEndNotif
         get => timeCounter.Count;
     }
 
+    public bool IsOnStage
+    {
+        private set;
+        get;
+    }
+
     public void NotifyEnd()
     {
         timeCounter.EndStage();
+        foreach (var a in stageEndObservers)
+            if (a != null)
+                a.EndStage();
     }
 
     public void ChangeStage(StageInfoContainer stage)
     {
+        IsOnStage = true;
         timeCounter.ChangeStage(stage);
-        foreach (var a in stageEndObservers)
-            if(a != null)
-               a.EndStage();
     }
 
     private void EscapeStage()
     {
         if (timeCounter.RequireTime <= 0 && Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("escape!");
+            IsOnStage = false;
             NotifyEnd();
+        }
     }
 
     public void Update()
@@ -47,10 +60,12 @@ public class StageFlowManager : MonoSingleton<StageFlowManager> , IStageEndNotif
 
     private void Awake()
     {
-        var observers = FindObjectsOfType(typeof(IStageEndObserver));
-        foreach (var a in observers)
-            if (a is IStageEndObserver)
-                stageEndObservers.Add(a as IStageEndObserver);
+        foreach (var a in stageEndObserverObjs)
+        {
+            var observer = a.GetComponent<IStageEndObserver>();
+            if (observer is IStageEndObserver)
+                stageEndObservers.Add(observer as IStageEndObserver);
+        }
     }
 }
 
