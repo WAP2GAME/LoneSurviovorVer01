@@ -29,10 +29,7 @@ public class SpawnManager : MonoBehaviour, IStageChangeObserver, IStageEndObserv
         spawnpos.Clear();
         var newList = stage.EnemySpawnPosList;
         for (int q = 0; q < newList.Count; q++)
-        {
-            spawnpos[q] = newList[q]; 
-        }
-        Debug.Log(newList.Count);
+            spawnpos.Add(newList[q]); 
     }
 
     public void EndStage()
