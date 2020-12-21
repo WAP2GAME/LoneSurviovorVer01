@@ -28,7 +28,7 @@ public class ScoreBoardManager : MonoBehaviour, IStageEndObserver
         killCountScore.text = killCnt.ToString();
     }
 
-    public void SetResultAsWon(bool isWon)
+    public void SetResult(bool isWon)
     {
         if (isWon)
             resultText.text = "Congraturation";
@@ -40,7 +40,30 @@ public class ScoreBoardManager : MonoBehaviour, IStageEndObserver
 
     public void EndStage()
     {
+        gameObject.SetActive(true);
         var lastStage = GameStageManger.Instance.CurrentStage;
+        ScoreManager scoreManager = ScoreManager.Instance;
 
+        SetResult(StageFlowManager.Instance.Count >= lastStage.RequireSurviveTime);
+    }
+
+    private void SetButtonFunc()
+    {
+        if (exitBtn)
+            exitBtn.onClick.AddListener(() => { Application.Quit(0);});
+        if (stageJumpBtn)
+            stageJumpBtn.onClick.AddListener(JumpStage);
+    } 
+
+    private void JumpStage()
+    {
+        ScoreManager.Instance.InitScore();
+        GameStageManger.Instance.MoveStage();
+        gameObject.SetActive(false);
+    }
+
+    private void Awake()
+    {
+        SetButtonFunc();
     }
 }

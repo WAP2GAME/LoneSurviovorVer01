@@ -14,13 +14,13 @@ class PlayerObjectStat : ObjectStat , IStageEndNotifier
     {
         if (IsGameOver(damage))
         {
-            Notify();
+            NotifyEnd();
             return;
         }
         base.TakeDamage(damage);
     }
 
-    public void Notify()
+    public void NotifyEnd()
     {
         foreach (var a in stageEndObservers)
             a.EndStage();

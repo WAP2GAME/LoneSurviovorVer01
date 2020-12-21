@@ -23,7 +23,7 @@ public class ZombieManager :MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(this);
         }
-        ZombieCount = GetComponent<CountManager>().Count;
+        ZombieCount = GetComponent<StageTimeCounter>().Count;
     }
     public int AddZombieHP;
     public int AddZombiePower;
