@@ -1,23 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System;
 using UnityEngine;
 using UnityEngine.UI;
-
-[Serializable]
-public class Slot
+/*
+public class Slot 
 {
-
     public ItemBase item; // 획득한 아이템.
     public int itemCount; // 획득한 아이템의 개수.
     public Image itemIcon; // 아이템의 이미지.
 
+    private Stack<ItemBase> items = new Stack<ItemBase>();
 
     // 필요한 컴포넌트.
     [SerializeField]
     private Text text_Count;
     [SerializeField]
     private GameObject go_CountImage;
+
+    public static int ItemCount { get; internal set; }
 
 
     // 이미지의 투명도 조절.
@@ -37,8 +38,7 @@ public class Slot
 
             go_CountImage.SetActive(true);
             text_Count.text = itemCount.ToString();
-  
-
+ 
         SetColor(1);
     }
 
@@ -64,3 +64,5 @@ public class Slot
         go_CountImage.SetActive(false);
     }
 }
+
+*/

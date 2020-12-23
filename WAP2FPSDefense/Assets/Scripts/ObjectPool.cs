@@ -36,6 +36,7 @@ public class ObjectPool : MonoSingleton<ObjectPool>
         itemsToPoolPosition = new Dictionary<string, int>();
         pooledObjectsList = new Dictionary<string, List<GameObject>>();
         position = new Dictionary<string, int>();
+        itemsToPool = new List<ObjectPoolItem>();
         for (int i = 0; i < itemsToPool.Count; i++)
             ObjectPoolItemToPooledObject(i);
     }
@@ -62,7 +63,7 @@ public class ObjectPool : MonoSingleton<ObjectPool>
         for (int i = position[name]; i < position[name] + pooledObjectsList[name].Count; i++)
         {
             GameObject obj = pooledObjectsList[name][i % curSize];
-            if (obj && obj.activeInHierarchy)
+            if (obj && !obj.activeInHierarchy)
             {
                 position[name] = i % curSize;
                 return pooledObjectsList[name][i % curSize];
