@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour
     private RaycastHit hitInfo;
 
 
-    float speed = 100f;
+    float speed = 1000f;
     float time;
     public int Damage = 20;
 
@@ -26,7 +26,6 @@ public class Bullet : MonoBehaviour
     {
         //타임 변수 초기화
         time = Time.time;
-        Cam = GameObject.Find("Main Camera");
        GetComponent<Rigidbody>().AddForce(Cam.transform.forward * speed);
     }
 
@@ -38,12 +37,9 @@ public class Bullet : MonoBehaviour
         //translate == 현재 오브젝트의 포지션에서 인자로 주어진 벡터 값을 더함
 
 
-        if (Time.time > time + 1 && gameObject.activeSelf)
+        if (Time.time > time + 3 && gameObject.activeSelf)
             gameObject.SetActive(false);
-
-      
     }
-
 
 
     void OnTriggerEnter(Collider col)
@@ -55,7 +51,5 @@ public class Bullet : MonoBehaviour
             if (gameObject.activeSelf)
                 gameObject.SetActive(false);
         }
-
-  
     }
 }
