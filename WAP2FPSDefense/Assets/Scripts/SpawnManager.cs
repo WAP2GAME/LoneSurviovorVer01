@@ -38,9 +38,11 @@ public class SpawnManager : MonoBehaviour, IStageChangeObserver, IStageEndObserv
         stageEndSpawn = true;
         if (stageEndSpawn)
         {
+            StopCoroutine(EnemySpawn());
 
         }
-        
+
+
     }
     private IEnumerator EnemySpawn()
     {

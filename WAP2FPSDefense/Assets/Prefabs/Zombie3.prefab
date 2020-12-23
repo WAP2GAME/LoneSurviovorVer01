@@ -1398,9 +1398,13 @@ GameObject:
   - component: {fileID: 95090565265420528}
   - component: {fileID: -7677215370997964307}
   - component: {fileID: 6026932127353576597}
+  - component: {fileID: 8806676136825188279}
+  - component: {fileID: 2782715828636639788}
+  - component: {fileID: 6425512712353820501}
+  - component: {fileID: 2694651219249031087}
   m_Layer: 0
   m_Name: Zombie3
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1453,7 +1457,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -1479,6 +1483,69 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!136 &8806676136825188279
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352753540370996}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!114 &2782715828636639788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352753540370996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac7141587b793f45bb69fc23bac01b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyTransform: {fileID: 564037308931078852, guid: f45ed26984573d645908e14b60bb5e1c,
+    type: 3}
+  target: {fileID: 4472230563169704985, guid: 3e6796e7de12dcf4b9925c9bd7628120, type: 3}
+  HitDamage: 1
+  HitSpeed: 1
+  EnemyStr: 150
+  health: 300
+--- !u!114 &6425512712353820501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352753540370996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dff0843498085d4479decfd5b8236f7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recognitionDist: 20
+  recognitionDegree: 180
+  searchLayer: 8
+--- !u!114 &2694651219249031087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352753540370996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbecbaebcb12d8b45a43ede76194560f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat:
+    baseHealthPointMax: 150
+    healthPoint: 150
 --- !u!1 &1354594622779090
 GameObject:
   m_ObjectHideFlags: 0
