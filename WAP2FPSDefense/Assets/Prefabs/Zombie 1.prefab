@@ -1396,15 +1396,15 @@ GameObject:
   m_Component:
   - component: {fileID: 4932267959246028}
   - component: {fileID: 95090565265420528}
-  - component: {fileID: -226699794840183763}
-  - component: {fileID: 3060088222441474759}
   - component: {fileID: -9189207836889733781}
   - component: {fileID: 5204425893454589006}
   - component: {fileID: 8202815729417566521}
-  - component: {fileID: 3293098211538060122}
+  - component: {fileID: 3060088222441474759}
+  - component: {fileID: 433736918916148905}
+  - component: {fileID: -7194306489661868435}
   m_Layer: 0
   m_Name: Zombie 1
-  m_TagString: Target
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1445,39 +1445,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &-226699794840183763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1352753540370996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e38fc87921b5d6549928cb84a8021191, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  recognitionDist: 20
-  recognitionDegree: 180
-  searchLayer: 8
---- !u!114 &3060088222441474759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1352753540370996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aac7141587b793f45bb69fc23bac01b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyTransform: {fileID: 564037308931078852, guid: 812ed0e444b7d9745bed425db4c816e1,
-    type: 3}
-  target: {fileID: 606804919947739123, guid: efe8a9bd21fa1d14085befa81e5cb69d, type: 3}
-  HitDamage: 1
-  HitSpeed: 1
-  EnemyStr: 10
 --- !u!195 &-9189207836889733781
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1530,7 +1497,7 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 1.5, z: 0}
---- !u!114 &3293098211538060122
+--- !u!114 &3060088222441474759
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1539,12 +1506,46 @@ MonoBehaviour:
   m_GameObject: {fileID: 1352753540370996}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66463325f8f9e664db1b1239663c8790, type: 3}
+  m_Script: {fileID: 11500000, guid: aac7141587b793f45bb69fc23bac01b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyTransform: {fileID: 564037308931078852, guid: f45ed26984573d645908e14b60bb5e1c,
+    type: 3}
+  target: {fileID: 4472230563169704985, guid: 3e6796e7de12dcf4b9925c9bd7628120, type: 3}
+  HitDamage: 1
+  HitSpeed: 1
+  EnemyStr: 10
+  health: 100
+--- !u!114 &433736918916148905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352753540370996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dff0843498085d4479decfd5b8236f7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recognitionDist: 20
+  recognitionDegree: 180
+  searchLayer: 8
+--- !u!114 &-7194306489661868435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352753540370996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbecbaebcb12d8b45a43ede76194560f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   stat:
-    baseHealthPointMax: 1
-    healthPoint: 0
+    baseHealthPointMax: 150
+    healthPoint: 150
 --- !u!1 &1354594622779090
 GameObject:
   m_ObjectHideFlags: 0

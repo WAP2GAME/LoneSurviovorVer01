@@ -26,6 +26,7 @@ public class SpawnManager : MonoBehaviour, IStageChangeObserver, IStageEndObserv
 
     public void ChangeStage(StageInfoContainer stage)
     {
+        stageEndSpawn = false;
         spawnpos.Clear();
         var newList = stage.EnemySpawnPosList;
         for (int q = 0; q < newList.Count; q++)
@@ -37,9 +38,11 @@ public class SpawnManager : MonoBehaviour, IStageChangeObserver, IStageEndObserv
         stageEndSpawn = true;
         if (stageEndSpawn)
         {
+            StopCoroutine(EnemySpawn());
 
         }
-        
+
+
     }
     private IEnumerator EnemySpawn()
     {

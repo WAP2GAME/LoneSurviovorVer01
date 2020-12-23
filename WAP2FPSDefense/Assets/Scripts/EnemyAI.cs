@@ -84,7 +84,7 @@ public class EnemyAI : MonoBehaviour
             {
                 this.agent.isStopped = true;
                 GetComponent<Animator>().SetBool("isDead", true);
-                //StartCoroutine(destroy());
+                StartCoroutine(destroy());
 
             }
 
@@ -92,7 +92,7 @@ public class EnemyAI : MonoBehaviour
             {
                 anim.SetBool("TargetFind", false);
                 anim.SetBool("targetAttack", true);
-                GetComponent<ObjectStat>().TakeDamage(0.5f);
+                target.GetComponent<ObjectStat>().TakeDamage(0.5f);
                 print("공격시작");
                 isPlayer = false;
                 yield break;
@@ -100,7 +100,7 @@ public class EnemyAI : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
     }
-    /*IEnumerator destroy()
+    IEnumerator destroy()
     {
         while (true)
         {
@@ -111,7 +111,7 @@ public class EnemyAI : MonoBehaviour
             Destroy(gameObject);
             yield break;
         }
-    }*/
+    }
     public void ZombieSetting()
     {
         StartCoroutine(ZombieAttack());
