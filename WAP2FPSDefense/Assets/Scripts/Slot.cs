@@ -3,10 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class Slot : MonoBehaviour
+/*
+public class Slot 
 {
-
     public ItemBase item; // 획득한 아이템.
     public int itemCount; // 획득한 아이템의 개수.
     public Image itemIcon; // 아이템의 이미지.
@@ -64,17 +63,6 @@ public class Slot : MonoBehaviour
         text_Count.text = "0";
         go_CountImage.SetActive(false);
     }
-
-
-    public int Bullet()
-    {
-        return Inventory.Instance.AmmoCnt;
-    }
-
-  
-
-    internal int ToInt()
-    {
-        throw new NotImplementedException();
-    }
 }
+
+*/
