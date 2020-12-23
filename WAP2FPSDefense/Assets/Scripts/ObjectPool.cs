@@ -63,7 +63,7 @@ public class ObjectPool : MonoSingleton<ObjectPool>
         for (int i = position[name]; i < position[name] + pooledObjectsList[name].Count; i++)
         {
             GameObject obj = pooledObjectsList[name][i % curSize];
-            if (obj && obj.activeInHierarchy)
+            if (obj && !obj.activeInHierarchy)
             {
                 position[name] = i % curSize;
                 return pooledObjectsList[name][i % curSize];
