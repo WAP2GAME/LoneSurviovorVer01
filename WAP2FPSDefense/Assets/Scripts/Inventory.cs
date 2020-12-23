@@ -5,109 +5,127 @@ using UnityEngine;
 
 public class Inventory : MonoSingleton<Inventory>
 {
-
-    public static bool inventoryActivated = false;
-
-    public int AmmoCnt
+    private Slot[] slots = new Slot[50];
+    public List<Slot> ItemConsumables
     {
-        get;
-        set;
-    }
-
-    public int GetNumberofItem(string ItemName)
-    {
-        for(int i = 0;  i < slots.Length; i++)
+        get
         {
-            if (slots[i] != null && slots[i].item.ItemName == ItemName)
-            { 
-                return slots[i].itemCount;
-            }
+            List<Slot> items = new List<Slot>(10);
+            for (int i = 0; i < slots.Length; i++)
+                if (slots[i] != null && slots[i].Item != null && slots[i].Item is ItemConsumable)
+                    items.Add(slots[i]);
+            return items;
         }
-        return -1;
+    }
+    public bool AddItem(ItemBase item)
+    {
+        int idx = GetIdleSlotIndex(item);
+        if (idx == -1)
+            return false;
+        slots[idx].AddItem(item);
+        return true;
     }
 
-    public Slot GetSlot(string ItemName)
+    public void AddItemCount(ItemBase item , int cnt)
     {
         for (int i = 0; i < slots.Length; i++)
-        {
-            if (slots[i] != null && slots[i].item.ItemName == ItemName)
-            {
+            if (slots[i] != null && slots[i].Item == item)
+                slots[i].IncreaseItem(cnt);
+    }
+
+    private int GetIdleSlotIndex(ItemBase item)
+    {
+        int nullSlot = -1;
+        for (int i = 0; i < slots.Length; i++)
+            if (slots[i].Item.Equals(item))
+                return i;
+            else if (slots[i].Item == null)
+                nullSlot = i;
+        return nullSlot;
+    }
+    public Slot GetSlot(string itemName)
+    {
+        for (int i = 0; i < slots.Length; i++)
+            if (slots[i] != null && slots[i].Item.Equals(itemName))
                 return slots[i];
-            }
-        }
         return null;
     }
 
-
-    // 필요한 컴포넌트
-    [SerializeField]
-    private GameObject go_InventoryBase;
-    [SerializeField]
-    private GameObject go_SlotsParent;
-
-    // 슬롯들.
-    public Slot[] slots = new Slot[50];
-
-    public int carryBulletCount; // 현재 소유하고 있는 총알 개수.
-
-    // Use this for initialization
-    void Start()
+    public Slot GetSlot(ItemBase item)
     {
-        slots = go_SlotsParent.GetComponentsInChildren<Slot>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        TryOpenInventory();
-    }
-
-    private void TryOpenInventory()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            inventoryActivated = !inventoryActivated;
-
-            if (inventoryActivated)
-                OpenInventory();
-            else
-                CloseInventory();
-        }
-    }
-
-    private void OpenInventory()
-    {
-        go_InventoryBase.SetActive(true);
-    }
-
-    private void CloseInventory()
-    {
-        go_InventoryBase.SetActive(false);
-    }
-
-    public void AcquireItem(ItemBase _item, int _count = 1)
-    {
-
-            for (int i = 0; i < slots.Length; i++)
-            {
-                if (slots[i].item != null)
-                {
-                    if (slots[i].item.ItemName == _item.ItemName)
-                    {
-                        slots[i].SetSlotCount(_count);
-                        return;
-                    }
-                }
-            }
-
-
         for (int i = 0; i < slots.Length; i++)
+            if (slots[i] != null && slots[i].Item.Equals(item))
+                return slots[i];
+        return null;
+    }
+}
+
+public class Slot
+{
+    private ItemBase item;
+    private int itemCount; 
+    
+    public bool IsOcuupied
+    {
+        get => item != null;
+    }
+    public ItemBase Item
+    {
+        get => item;
+    }
+
+    public int ItemCount
+    {
+        get => ItemCount;
+    }
+   
+    public bool Use()
+    {
+        if (!(item is ItemConsumable))
+            return false;
+        var itemConsume = item as ItemConsumable;
+            DecreaseItem(1);
+        return true;
+    }
+
+    public bool AddItem(ItemBase item)
+    {
+        if (!IsAbleToPut(item))
+            return false;
+        this.item = item;
+        itemCount = 1;
+        return true;
+    }
+
+    private bool IsAbleToPut(ItemBase item)
+    {
+        return this.item == null && item != null;
+    }
+
+    public bool IncreaseItem(int cnt)
+    {
+        if (itemCount + cnt <= item.StockCountLimit)
         {
-            if (slots[i].item == null)
-            {
-                slots[i].AddItem(_item, _count);
-                return;
-            }
+            itemCount += cnt;
+            return true;
         }
+        else
+            return false;
+    }
+
+    public void DecreaseItem(int cnt)
+    {
+        if (item == null)
+            return;
+        if (itemCount <= cnt)
+            ClearSlot();
+        else
+            itemCount -= cnt;
+    }
+
+    private void ClearSlot()
+    {
+        item = null;
+        itemCount = 0;
     }
 }
