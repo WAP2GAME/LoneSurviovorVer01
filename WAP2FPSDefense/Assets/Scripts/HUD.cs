@@ -30,9 +30,9 @@ public class HUD : MonoBehaviour
     private void CheckBullet()
     {
         currentGun = theGunController.GetGun();
-        text_Bullet[0].text = theGunController.CurrentBullet.ToString();
-        text_Bullet[1].text = theGunController.reloadBulletCount.ToString();
-        text_Bullet[2].text = theGunController.currentBulletCount.ToString();
+        text_Bullet[0].text = currentGun.carryBulletCount.ToString();
+        text_Bullet[1].text = currentGun.reloadBulletCount.ToString();
+        text_Bullet[2].text = currentGun.currentBulletCount.ToString();
     }
 
 }
