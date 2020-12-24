@@ -45,6 +45,7 @@ public class GunController : MonoBehaviour
     private Crosshair theCrosshair;
 
 
+
     // 피격 이펙트.
     [SerializeField]
     private GameObject hit_effect_prefab;
@@ -123,10 +124,8 @@ public class GunController : MonoBehaviour
         if(bullet != null)
         {
             bullet.transform.position = theCam.transform.position;
-            //Debug.Log(bullet.transform.position);
             bullet.SetActive(true);
         }
-       // bullet.transform.Translate(currentGun.transform.position);
         StopAllCoroutines();
         StartCoroutine(RetroActionCoroutine());
     }
