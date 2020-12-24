@@ -13,9 +13,9 @@ public class Bullet : MonoBehaviour
     private RaycastHit hitInfo;
 
 
-    float speed = 1000f;
-    float time;
-    public int Damage = 20;
+    private float speed = 1000f;
+    private float time;
+    private int Damage = 20;
 
     [SerializeField]
     private GameObject Cam;
@@ -26,18 +26,16 @@ public class Bullet : MonoBehaviour
     {
         //타임 변수 초기화
         time = Time.time;
-       GetComponent<Rigidbody>().AddForce(Cam.transform.forward * speed);
+        var rigidBody = GetComponent<Rigidbody>();
+        rigidBody.velocity = Vector3.zero;
+        rigidBody.AddForce(Cam.transform.forward * speed);
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        //transform.forward = 이 오브젝트의 정면 벡터 값
-        //translate == 현재 오브젝트의 포지션에서 인자로 주어진 벡터 값을 더함
-
-
-        if (Time.time > time + 3 && gameObject.activeSelf)
+        if (Time.time > time + 2 && gameObject.activeSelf)
             gameObject.SetActive(false);
     }
 
