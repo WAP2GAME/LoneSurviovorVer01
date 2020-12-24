@@ -37,7 +37,7 @@ public class Bullet : MonoBehaviour
         //translate == 현재 오브젝트의 포지션에서 인자로 주어진 벡터 값을 더함
 
 
-        if (Time.time > time + 3 && gameObject.activeSelf)
+        if (Time.time > time + 0.5 && gameObject.activeSelf)
             gameObject.SetActive(false);
     }
 
