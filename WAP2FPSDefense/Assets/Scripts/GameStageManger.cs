@@ -36,6 +36,19 @@ public class GameStageManger : MonoSingleton<GameStageManger> , IStageChangeNoti
         get;
     }
 
+    private bool IsAllStageFinished
+    {
+        get
+        {
+            int cnt =0;
+            foreach (var stage in stageList)
+                if (stage.IsFinished)
+                    cnt++;
+
+            return cnt == stageList.Count;
+        }
+    }
+
     public void MoveStage()
     {
         var nextStage = GetRandomStage();
@@ -57,15 +70,14 @@ public class GameStageManger : MonoSingleton<GameStageManger> , IStageChangeNoti
     {
         defendObj.SetActive(false);
         player.SetActive(false);
+        CurrentStage.IsFinished = true;
+        FinishedStageCnt++;
     }
 
     private StageInfoContainer GetRandomStage()
     {
-        if (++FinishedStageCnt >= stageList.Count)
-        {
-            FinishedStageCnt = 0;
+        if (IsAllStageFinished)
             EnableAllStage();
-        }
 
         StageInfoContainer stage = null;
         while(stage == null)
@@ -75,7 +87,6 @@ public class GameStageManger : MonoSingleton<GameStageManger> , IStageChangeNoti
                 stage = stageList[idx];
         }
 
-        stage.IsFinished = true;
         return stage;
     }
 
@@ -91,8 +102,8 @@ public class GameStageManger : MonoSingleton<GameStageManger> , IStageChangeNoti
         foreach (var a in stageChangeObserverObjs)
         {
             var observer = a.GetComponent<IStageChangeObserver>();
-            if(observer is IStageChangeObserver)
-               stageChangeObservers.Add(observer as IStageChangeObserver);
+            if (observer is IStageChangeObserver)
+                stageChangeObservers.Add(observer as IStageChangeObserver);
         }
     }
 }
