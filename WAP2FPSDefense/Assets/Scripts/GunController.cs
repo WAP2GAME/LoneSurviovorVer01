@@ -123,7 +123,8 @@ public class GunController : MonoBehaviour
         bullet = objectPool.GetPooledObject(bulletPrefab.name);
         if(bullet != null)
         {
-            bullet.transform.position = theCam.transform.position;
+            bullet.transform.position = transform.position+transform.forward;
+            bullet.transform.LookAt(transform.position + transform.forward * 1.2f);
             bullet.SetActive(true);
         }
         StopAllCoroutines();
