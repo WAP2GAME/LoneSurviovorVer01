@@ -46,7 +46,6 @@ public class StageFlowManager : MonoSingleton<StageFlowManager> , IStageEndNotif
     {
         if (timeCounter.RequireTime <= 0 && Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("escape!");
             IsOnStage = false;
             NotifyEnd();
         }
