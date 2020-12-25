@@ -17,12 +17,17 @@ public class Inventory : MonoSingleton<Inventory>
             return items;
         }
     }
+
     public bool AddItem(ItemBase item)
     {
         int idx = GetIdleSlotIndex(item);
         if (idx == -1)
             return false;
-        slots[idx].AddItem(item);
+        if (slots[idx].Item == null)
+            slots[idx].AddItem(item);
+        else
+            slots[idx].IncreaseItem(1);
+
         return true;
     }
 
@@ -36,11 +41,15 @@ public class Inventory : MonoSingleton<Inventory>
     private int GetIdleSlotIndex(ItemBase item)
     {
         int nullSlot = -1;
+        bool hasFoundEmpty = false;
         for (int i = 0; i < slots.Length; i++)
-            if (slots[i].Item.Equals(item))
-                return i;
-            else if (slots[i].Item == null)
+            if (slots[i].Item == null && !hasFoundEmpty)
+            {
                 nullSlot = i;
+                hasFoundEmpty = true;
+            }
+            else if (slots[i].Item != null && slots[i].Item.Equals(item))
+                return i;
         return nullSlot;
     }
     public Slot GetSlot(string itemName)
@@ -58,12 +67,18 @@ public class Inventory : MonoSingleton<Inventory>
                 return slots[i];
         return null;
     }
+
+    private void Awake()
+    {
+        for (int i = 0; i < slots.Length; i++)
+            slots[i] = new Slot();
+    }
 }
 
 public class Slot
 {
-    private ItemBase item;
-    private int itemCount; 
+    private ItemBase item = null;
+    private int itemCount = -1; 
     
     public bool IsOcuupied
     {
@@ -76,7 +91,7 @@ public class Slot
 
     public int ItemCount
     {
-        get => ItemCount;
+        get => itemCount;
     }
    
     public bool Use()
@@ -84,7 +99,8 @@ public class Slot
         if (!(item is ItemConsumable))
             return false;
         var itemConsume = item as ItemConsumable;
-            DecreaseItem(1);
+        itemConsume.Use();
+        DecreaseItem(1);
         return true;
     }
 
@@ -104,13 +120,8 @@ public class Slot
 
     public bool IncreaseItem(int cnt)
     {
-        if (itemCount + cnt <= item.StockCountLimit)
-        {
-            itemCount += cnt;
-            return true;
-        }
-        else
-            return false;
+        itemCount += cnt;
+        return true;
     }
 
     public void DecreaseItem(int cnt)
@@ -128,4 +139,6 @@ public class Slot
         item = null;
         itemCount = 0;
     }
+
+    
 }

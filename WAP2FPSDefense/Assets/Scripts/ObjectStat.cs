@@ -31,12 +31,6 @@ public class Stat
         }
     }
 
-    public Stat(int maxHP)
-    {
-        baseHealthPointMax = maxHP;
-        InitStats();
-    }
-
     #region user function
     public void InitStats()
     {

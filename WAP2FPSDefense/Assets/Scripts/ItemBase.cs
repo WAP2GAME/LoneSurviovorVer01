@@ -20,7 +20,7 @@ public class ItemBase : ScriptableObject
     [SerializeField]
     protected string describtion;
     [SerializeField]
-    protected float cost;
+    protected int cost;
     [SerializeField]
     protected Sprite itemIcon;
 
@@ -32,7 +32,7 @@ public class ItemBase : ScriptableObject
     {
         get => describtion;
     }
-    public float Cost
+    public int Cost
     {
         get => cost;
     }
