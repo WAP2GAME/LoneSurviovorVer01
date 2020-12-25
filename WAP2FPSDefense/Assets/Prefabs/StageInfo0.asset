@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60ffd5559433cf0428bfb58d3e96538c, type: 3}
+  m_Name: StageInfo0
+  m_EditorClassIdentifier: 
+  playerSpawnPos: {x: 400, y: -4, z: 1500}
+  defendObjSpawnPos: {x: 370, y: -4, z: 1520}
+  stagePrefab: {fileID: 0}
+  enemySpawnPosList:
+  - {x: 500, y: -3, z: 1100}
+  - {x: 250, y: -3, z: 1588}
+  - {x: 700, y: -3, z: 1278}
+  - {x: 600, y: -3, z: 1800}
+  requireSurviveTime: 10
