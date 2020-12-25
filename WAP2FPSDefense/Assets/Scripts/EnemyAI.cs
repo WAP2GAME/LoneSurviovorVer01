@@ -9,22 +9,16 @@ public class EnemyAI : MonoBehaviour
     //EnemyTrace
     private NavMeshAgent agent = null;
     private SearchComponent searchcomponent = null;
-    public GameObject enemyTransform;
 
     [SerializeField] public GameObject target;
 
     //AttackTarget
-    [SerializeField] private bool HitDamage; // 공격
-    [SerializeField] private bool HitSpeed;  // 공격속도
     [SerializeField] private float EnemyStr;
-    private float Hitrange = 100f;
+    [SerializeField] private float hitRange = 1f;
+    [SerializeField] private float moveSpeed = 0.1f;
     private bool isPlayer = false;
-    private bool targetAttack;
-    private bool isDead;
     public float health;
-    Animator anim;
-
- 
+    private Animator anim;
 
     private void OnEnable()
     {
@@ -34,14 +28,9 @@ public class EnemyAI : MonoBehaviour
 
         //AttackTarget
         anim = GetComponent<Animator>();
-        targetAttack = false;
-        isDead = false;
-
-        Hitrange += ZombieManager.Instance.AddZombieHP;
-        EnemyStr += ZombieManager.Instance.AddZombiePower;
         StartCoroutine(ZombieAttack());
-
     }
+
     private IEnumerator ZombieAttack()
     {
         while (true)
@@ -50,68 +39,52 @@ public class EnemyAI : MonoBehaviour
             int cnt = queue.Count;
             for (int ix = 0; ix < cnt; ix++)
             {
-                try
+                GameObject obj = queue.Dequeue(); //SearchComponent 에서 쌓인 큐를 비우는 것.
+                if (obj.tag == "Player")
                 {
-                    GameObject obj = queue.Dequeue(); //SearchComponent 에서 쌓인 큐를 비우는 것.
-                    if (obj.tag == "Player")
-                    {
-                        isPlayer = true;
-                        break;
-                    }
-                    else if (obj.tag == "Nexus")
-                    {
-                        isPlayer = false;
-                    }
+                    isPlayer = true;
+                    break;
                 }
-                catch (Exception ex) { }
+                else if (obj.name == "Nexus")
+                    isPlayer = false;
             }
 
             if (isPlayer) // 플레이어가 감지 되었다면 
-            {
                 target = ZombieManager.Instance.Player;
-            }
             else
-            {
                 target = ZombieManager.Instance.Nexus;
-            }
 
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(target.transform.position - transform.position), 0.1f);
-            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, 0.5f);
-
-            health = GetComponent<ObjectStat>().HealthPoint;
-            //GetComponent<ObjectStat>().TakeDamage(0.005f);
-            if (health < 0)
-            {
-                this.agent.isStopped = true;
-                GetComponent<Animator>().SetBool("isDead", true);
-                StartCoroutine(destroy());
-
-            }
-
-            if (Vector3.Distance(transform.position, target.transform.position) < 5)
+            transform.LookAt(target.transform.position);
+            if (Vector3.Distance(transform.position, target.transform.position) < hitRange)
             {
                 anim.SetBool("TargetFind", false);
                 anim.SetBool("targetAttack", true);
-                target.GetComponent<ObjectStat>().TakeDamage(0.5f);
-                print("공격시작");
-                isPlayer = false;
-                yield break;
+                target.GetComponent<ObjectStat>().TakeDamage(1f);
+                yield return new WaitForSeconds(1f);
+                continue;
+            }
+            else
+            {
+                anim.SetBool("TargetFind", true);
+                anim.SetBool("targetAttack", false);
+                transform.position = Vector3.MoveTowards(transform.position, target.transform.position, moveSpeed);
             }
             yield return new WaitForFixedUpdate();
         }
     }
+
     IEnumerator destroy()
     {
         while (true)
         {
             yield return new WaitForSeconds(2.0f);
 
-            ScoreManager.Instance.AddScore(10);
             ScoreManager.Instance.AddCoin(10);
             Destroy(gameObject);
             yield break;
         }
     }
+
     public void ZombieSetting()
     {
         StartCoroutine(ZombieAttack());

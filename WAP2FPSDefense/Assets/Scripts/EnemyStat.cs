@@ -21,7 +21,13 @@ class EnemyStat : ObjectStat
 
     public override void TakeDamage(float damage)
     {
-        base.TakeDamage(damage);
+        stat.TakeDamage(damage);
+        if (stat.IsDead)
+        {
+            ScoreManager.Instance.AddCoin(10);
+            ScoreManager.Instance.AddScore(10);
+            Destroy(gameObject);
+        }
     }
 }
 
