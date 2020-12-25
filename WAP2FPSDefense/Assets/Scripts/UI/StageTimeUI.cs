@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class StageTimeUI : MonoBehaviour 
+public class StageTimeUI : MonoBehaviour ,IStageChangeObserver , IStageEndObserver
 {
     [SerializeField]
     private Text playCountText;
@@ -21,6 +21,16 @@ public class StageTimeUI : MonoBehaviour
             playCountText.text = "playTime : " + (int)count + "";
             escpaeInformText.gameObject.SetActive(requireTime <= 0);
         }
+    }
+
+    public void ChangeStage(StageInfoContainer stage)
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void EndStage()
+    {
+        gameObject.SetActive(false);
     }
 
     private void LateUpdate()

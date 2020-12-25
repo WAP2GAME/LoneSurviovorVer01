@@ -21,11 +21,12 @@ public class ScoreBoardManager : MonoBehaviour, IStageEndObserver
     [SerializeField]
     private Text resultText = null;
 
-
-    public void SetScore(float surviveTime, float killCnt)
+    [SerializeField]
+    private GameObject shopCanvas = null;
+    public void SetScore()
     {
-        surviveTimeScore.text = surviveTime.ToString();
-        killCountScore.text = killCnt.ToString();
+        surviveTimeScore.text = "You have survived "+((int)(StageFlowManager.Instance.Count)).ToString()+"Sec.";
+        killCountScore.text = "Total kill Point :"+ ScoreManager.Instance.Score;
     }
 
     public void SetResult(bool isWon)
@@ -34,6 +35,7 @@ public class ScoreBoardManager : MonoBehaviour, IStageEndObserver
             resultText.text = "Congraturation";
         else
             resultText.text = "Game Over";
+        SetScore();
         shopBtn.gameObject.SetActive(isWon);
         stageJumpBtn.gameObject.SetActive(isWon);
     }
@@ -42,23 +44,33 @@ public class ScoreBoardManager : MonoBehaviour, IStageEndObserver
     {
         gameObject.SetActive(true);
         var lastStage = GameStageManger.Instance.CurrentStage;
-
         SetResult(StageFlowManager.Instance.Count >= lastStage.RequireSurviveTime);
     }
 
     private void SetButtonFunc()
     {
         if (exitBtn)
-            exitBtn.onClick.AddListener(() => { Application.Quit(0);});
+            exitBtn.onClick.AddListener(Quit);
         if (stageJumpBtn)
             stageJumpBtn.onClick.AddListener(JumpStage);
-    } 
+        if (shopBtn && shopCanvas)
+            shopBtn.onClick.AddListener(GoShop);
+    }
+
+    private void Quit()
+    {
+        Application.Quit(1);
+    }
 
     private void JumpStage()
     {
-        ScoreManager.Instance.InitScore();
         GameStageManger.Instance.MoveStage();
         gameObject.SetActive(false);
+    }
+
+    private void GoShop()
+    {
+        shopCanvas.SetActive(true);
     }
 
     private void Awake()
