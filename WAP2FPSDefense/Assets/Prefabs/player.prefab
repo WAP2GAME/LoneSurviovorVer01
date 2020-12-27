@@ -66,7 +66,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 864acd745d0e3c14494fc0ce0dab3ea4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closeWeaponName: 
   isHand: 0
   isAxe: 0
   range: 0
@@ -182,8 +181,12 @@ MonoBehaviour:
   fireRate: 0.2
   reloadTime: 2
   damage: 30
-  retroActionForce: 0
-  retroActionFineSightForce: 0
+  reloadBulletCount: 1
+  currentBulletCount: 200
+  maxBulletCount: 250
+  carryBulletCount: 250
+  retroActionForce: 1
+  retroActionFineSightForce: 1
   fineSightOriginPos: {x: 0, y: 0, z: 0}
   anim: {fileID: 3966160607500123952}
   muzzleFlash: {fileID: 0}
@@ -323,9 +326,10 @@ GameObject:
   - component: {fileID: 3966160607800025110}
   - component: {fileID: 3966160607800025109}
   - component: {fileID: 3966160607800025107}
-  - component: {fileID: 3966160607800025108}
+  - component: {fileID: 50809579767619465}
+  - component: {fileID: 3993503768038958110}
   m_Layer: 2
-  m_Name: Player
+  m_Name: player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -423,7 +427,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &3966160607800025108
+--- !u!114 &50809579767619465
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -432,17 +436,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 3966160607800025105}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 940cb585bdbc84a4aa2065faad955772, type: 3}
+  m_Script: {fileID: 11500000, guid: b4ee26a597f4a1745b722307d18cce30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 3
-  runSpeed: 10
-  crouchSpeed: 0
+  walkSpeed: 5
+  runSpeed: 5
+  crouchSpeed: 5
   jumpForce: 5
   crouchPosY: 0
-  lookSensitivity: 0
-  cameraRotationLimit: 0
+  lookSensitivity: 10
+  cameraRotationLimit: 90
   theCamera: {fileID: 3966160608646168954}
+--- !u!114 &3993503768038958110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3966160607800025105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71bd596e0a5fb1346b19a2e9367e84f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat:
+    baseHealthPointMax: 100
+    healthPoint: 100
+  stageEndObserverObjs:
+  - {fileID: 0}
+  - {fileID: 0}
+  hitMotionAnimator:
+    obj: {fileID: 0}
+    power: 1
+    animationTime: 1
+  audioManager: {fileID: 0}
 --- !u!1 &3966160607992785848
 GameObject:
   m_ObjectHideFlags: 0
@@ -714,7 +741,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3966160608290805133}
   - component: {fileID: 3966160608646168954}
-  - component: {fileID: 3966160608290805134}
   m_Layer: 2
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -781,14 +807,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &3966160608290805134
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3966160608290805132}
-  m_Enabled: 1
 --- !u!1 &3966160608339124456
 GameObject:
   m_ObjectHideFlags: 0
@@ -856,7 +874,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 864acd745d0e3c14494fc0ce0dab3ea4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closeWeaponName: 
   isHand: 0
   isAxe: 0
   range: 0
@@ -1260,12 +1277,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentGun: {fileID: 3966160607507499605}
-  CurrentBullet: {fileID: 0}
-  reloadBulletCount: 30
-  currentBulletCount: 30
-  maxBulletCount: 30
   isFineSightMode: 0
   theCam: {fileID: 3966160608646168954}
+  theCrosshair: {fileID: 0}
   hit_effect_prefab: {fileID: 0}
   bulletPrefab: {fileID: 2944681853492106076}
 --- !u!114 &3966160609021274712
@@ -1280,9 +1294,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33f075bf8cd02d2448c19a263fc46dd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentWeaponType: 
-  changeWeaponDelayTime: 0
-  changeWeaponEndDelayTime: 0
+  currentWeaponType: Gun
+  changeWeaponDelayTime: 0.1
+  changeWeaponEndDelayTime: 0.1
   guns:
   - {fileID: 3966160607507499605}
   hands:
@@ -1635,7 +1649,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3966160609173815227}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3966160607507894482}
