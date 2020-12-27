@@ -9,23 +9,27 @@ using System;
 public class ObjectAudio : MonoBehaviour
 {
     [SerializeField]
-    protected List<AudioClip> auidos;
+    protected List<AudioClip> audios;
     [SerializeField]
     protected AudioSource audioSource;
-    public bool IsPlayeing
+    public bool IsPlaying
     {
-        protected set { IsPlayeing = value; }
+        protected set { IsPlaying = value; }
         get => audioSource.isPlaying;
+    }
+    public int AudioCnt
+    {
+        get => audios.Count;
     }
 
     public virtual void Play(int idx)
     {
-        if (idx >= auidos.Count)
+        if (idx >= audios.Count)
             return;
 
-        if (IsPlayeing)
+        if (IsPlaying)
             audioSource.Stop();
-        audioSource.clip = auidos[idx];
+        audioSource.clip = audios[idx];
         audioSource.Play();
     }
 

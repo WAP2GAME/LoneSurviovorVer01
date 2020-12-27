@@ -9,7 +9,7 @@ public class GunController : MonoBehaviour
 {
 
     // 활성화 여부.
-    public static bool isActivate = true;
+    public static bool isActivate = false;
 
     // 현재 장착된 총
     public Gun currentGun;
@@ -65,7 +65,6 @@ public class GunController : MonoBehaviour
         theCrosshair = FindObjectOfType<Crosshair>();
 
         WeaponManager.currentWeapon = currentGun.GetComponent<Transform>();
-        WeaponManager.currentWeapon = currentGun.GetComponent<Transform>();
         WeaponManager.currentWeaponAnim = currentGun.anim;
 
         objectPool = ObjectPool.Instance;
@@ -73,6 +72,13 @@ public class GunController : MonoBehaviour
         if (!objectPool.IsContainObject(bulletPrefab.name))
             objectPool.AddObject(bulletPrefab, bulletPrefab.name, 100);
 
+    }
+
+    private void OnEnable()
+    {
+        currentGun.transform.position = originPos;
+        currentGun.anim.Play("default");
+        isReload = false; 
     }
 
     void Update()
@@ -149,7 +155,7 @@ public class GunController : MonoBehaviour
     }
 
     // 재장전
-    IEnumerator ReloadCoroutine()
+    private IEnumerator ReloadCoroutine()
     {
         if (currentGun.carryBulletCount > 0)
         {
@@ -161,7 +167,7 @@ public class GunController : MonoBehaviour
             currentGun.carryBulletCount += currentGun.currentBulletCount;
             currentGun.currentBulletCount = 0;
 
-            yield return new WaitForSeconds(currentGun.reloadTime);
+            yield return WaitTime.GetWaitForSecondOf(currentGun.reloadTime);
 
             if (currentGun.carryBulletCount >= currentGun.reloadBulletCount)
             {
@@ -181,7 +187,7 @@ public class GunController : MonoBehaviour
     }
 
     // 반동 코루틴
-    IEnumerator RetroActionCoroutine()
+    private IEnumerator RetroActionCoroutine()
     {
         Vector3 recoilBack = new Vector3(currentGun.retroActionForce, originPos.y, originPos.z);
         Vector3 retroActionRecoilBack = new Vector3(currentGun.retroActionFineSightForce, currentGun.fineSightOriginPos.y, currentGun.fineSightOriginPos.z);

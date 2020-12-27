@@ -91,14 +91,10 @@ class ShopItemGenerator
 {
     [SerializeField]
     private int[] ammoCntRange = { 50, 150 };
-
-    [SerializeField]
-    private int[] healthPotioCntnRange = { 2, 5 };
-
     [SerializeField]
     private int[] potionKindCntRange = { 1, 3 };
     [SerializeField]
-    private int[] potionCntRange = { 2, 5 };
+    private int[] potionCntRange = { 15, 25};
 
     public List<ItemStock> RandomConsumableItems
     {

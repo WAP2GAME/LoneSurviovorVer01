@@ -20,6 +20,7 @@ public class EnemyAI : MonoBehaviour
     public float health;
     private Animator anim;
 
+    private ObjectAudio audioManager;
     private void OnEnable()
     {
         //EnemyTrace
@@ -28,6 +29,7 @@ public class EnemyAI : MonoBehaviour
 
         //AttackTarget
         anim = GetComponent<Animator>();
+        audioManager = GetComponent<ObjectAudio>();
         StartCoroutine(ZombieAttack());
     }
 
@@ -60,7 +62,10 @@ public class EnemyAI : MonoBehaviour
                 anim.SetBool("TargetFind", false);
                 anim.SetBool("targetAttack", true);
                 target.GetComponent<ObjectStat>().TakeDamage(1f);
-                yield return new WaitForSeconds(1f);
+                int attackSounds = audioManager.AudioCnt;
+                int idx = UnityEngine.Random.Range(0, attackSounds);
+                audioManager.Play(idx);
+                yield return WaitTime.GetWaitForSecondOf(1f);
                 continue;
             }
             else
@@ -69,19 +74,7 @@ public class EnemyAI : MonoBehaviour
                 anim.SetBool("targetAttack", false);
                 transform.position = Vector3.MoveTowards(transform.position, target.transform.position, moveSpeed);
             }
-            yield return new WaitForFixedUpdate();
-        }
-    }
-
-    IEnumerator destroy()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(2.0f);
-
-            ScoreManager.Instance.AddCoin(10);
-            Destroy(gameObject);
-            yield break;
+            yield return null;
         }
     }
 

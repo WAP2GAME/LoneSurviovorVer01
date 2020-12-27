@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemContainer : MonoSingleton<ItemContainer>
 {
     [SerializeField]
-    private List<ItemBase> items = new List<ItemBase>(50);
+    private List<ItemBase> items;
 
     public List<ItemBase> Items
     {

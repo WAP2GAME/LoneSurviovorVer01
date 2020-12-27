@@ -5,6 +5,18 @@ using UnityEngine.UI;
 using System;
 
 
+public struct WaitTime
+{
+    private static Dictionary<float, WaitForSeconds> waitTimes = new Dictionary<float, WaitForSeconds>();
+    public static WaitForSeconds GetWaitForSecondOf(float second)
+    {
+        if (!waitTimes.ContainsKey(second))
+            waitTimes.Add(second, new WaitForSeconds(second));
+        return waitTimes[second];
+    }
+}
+
+
 public class StageFlowManager : MonoSingleton<StageFlowManager> , IStageEndNotifier ,IStageChangeObserver
 {
     [SerializeField]

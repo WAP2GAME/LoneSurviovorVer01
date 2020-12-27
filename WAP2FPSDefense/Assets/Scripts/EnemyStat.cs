@@ -26,6 +26,7 @@ class EnemyStat : ObjectStat
         {
             ScoreManager.Instance.AddCoin(10);
             ScoreManager.Instance.AddScore(10);
+            GameStageManger.Instance.Player.GetComponentInChildren<GunController>().currentGun.carryBulletCount += 30;
             Destroy(gameObject);
         }
     }

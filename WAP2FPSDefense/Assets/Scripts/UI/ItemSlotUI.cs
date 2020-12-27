@@ -25,12 +25,11 @@ public class ItemSlotUI : MonoBehaviour
             textItemCnt[i].text = item.ItemCount.ToString();
             if (++i >= imgItem.Length)
                 break;
-
-            for (; i < imgItem.Length; i++)
-            {
-                imgItem[i].sprite = null;
-                textItemCnt[i].text = null;
-            }
+        }
+        for (; i < imgItem.Length; i++)
+        {
+            imgItem[i].sprite = null;
+            textItemCnt[i].text = null;
         }
     }
 

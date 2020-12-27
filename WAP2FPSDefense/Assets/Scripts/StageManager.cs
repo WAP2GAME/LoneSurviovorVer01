@@ -3,21 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StageManager : MonoBehaviour
+public class StageManager : MonoSingleton<StageManager>
 {
-    private static StageManager Instance = null; 
-    public static StageManager instance
-    {
-        get
-        {
-            return Instance;
-        }
-    }
-
-
-
-    [SerializeField] Text CountText;
-    float Count = 60;
+    private float Count = 60;
 
     public int AddZombieHp;
     public int AddZombiePower;
@@ -31,20 +19,12 @@ public class StageManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(this);
-        }
         AddZombieHp = 0;
         AddZombiePower = 0;
     }
 
     void FixedUpdate()
     {
-        Count -= Time.deltaTime;
-        CountText.text = (int)Count + "";
-
         if(Count < 0)
         {
             Count = 60;

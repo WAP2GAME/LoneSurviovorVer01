@@ -16,7 +16,6 @@ public class ZombieManager : MonoSingleton<ZombieManager>
         if (ZombieCount > 10)
         {
             ZombieCount = 0;
-            Debug.Log("zombie Enhance");
             AddZombieHP += 100;
             AddZombiePower += 10;
             ZombieCount += Time.deltaTime;

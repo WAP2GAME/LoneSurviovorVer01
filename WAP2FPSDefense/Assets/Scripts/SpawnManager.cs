@@ -6,6 +6,7 @@ public class SpawnManager : MonoBehaviour, IStageChangeObserver, IStageEndObserv
 {
     [SerializeField] private List<GameObject> ZombieList;
     [SerializeField] private float SpawnDelay;
+    private List<GameObject> spawnedZombies = new List<GameObject>();
 
     public Vector3 vector;
     private bool isSpawn = true;
@@ -36,13 +37,9 @@ public class SpawnManager : MonoBehaviour, IStageChangeObserver, IStageEndObserv
     public void EndStage()
     {
         stageEndSpawn = true;
-        if (stageEndSpawn)
-        {
-            StopCoroutine(EnemySpawn());
-
-        }
-
-
+        foreach (var a in spawnedZombies)
+            Destroy(a);
+        spawnedZombies.Clear();
     }
     private IEnumerator EnemySpawn()
     {
@@ -52,15 +49,14 @@ public class SpawnManager : MonoBehaviour, IStageChangeObserver, IStageEndObserv
         {
             if (isSpawn && !stageEndSpawn)
             {
-                GameObject Zombies = Instantiate(ZombieList[Random.Range(0, ZombieList.Count - 1)], spawnpos[i], Quaternion.identity);
-                Zombies.GetComponent<EnemyAI>().ZombieSetting();
+                GameObject zombie = Instantiate(ZombieList[Random.Range(0, ZombieList.Count - 1)], spawnpos[i], Quaternion.identity);
+                zombie.GetComponent<EnemyAI>().ZombieSetting();
+                spawnedZombies.Add(zombie);
                if (++i % spawnpos.Count == 0)
-                {
                     i = 0;
-                }
             }
 
-        yield return new WaitForSeconds(SpawnDelay);
+        yield return WaitTime.GetWaitForSecondOf(SpawnDelay);
         } 
     }
 

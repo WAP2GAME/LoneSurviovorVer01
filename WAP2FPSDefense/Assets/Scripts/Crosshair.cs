@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Crosshair : MonoBehaviour
 {
-
-
     private const float WALKING_FIRE = 0.08f, STANDING_FIRE = 0.04f, CROUCHING_FIRE = 0.02f, FINESIGHT_FIRE = 0.001f;
 
     [SerializeField]
@@ -73,5 +71,4 @@ public class Crosshair : MonoBehaviour
 
         return gunAccuracy;
     }
-
 }

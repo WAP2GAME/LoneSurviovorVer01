@@ -56,7 +56,8 @@ public class GameStageManger : MonoSingleton<GameStageManger> , IStageChangeNoti
         defendObj.transform.position = nextStage.DefendObjSpawnPos;
         defendObj.SetActive(true);
         player.transform.position = nextStage.PlayerSpawnPos;
-        player.SetActive(true);
+        GunController.isActivate = true;
+        Cursor.visible = false;
         Notify(nextStage);
     }
 
@@ -69,8 +70,9 @@ public class GameStageManger : MonoSingleton<GameStageManger> , IStageChangeNoti
     public void EndStage()
     {
         defendObj.SetActive(false);
-        player.SetActive(false);
+        GunController.isActivate = false;
         CurrentStage.IsFinished = true;
+        Cursor.visible = true;
         FinishedStageCnt++;
     }
 

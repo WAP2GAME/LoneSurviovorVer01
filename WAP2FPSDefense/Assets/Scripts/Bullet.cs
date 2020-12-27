@@ -13,34 +13,35 @@ public class Bullet : MonoBehaviour
     private RaycastHit hitInfo;
 
 
-    private float speed = 1000f;
+    private float speed = 4000f;
     private float time;
     private int Damage = 20;
 
     [SerializeField]
-    private GameObject Cam;
+    protected GameObject Cam;
 
     public Vector3 direction;
 
-    public void OnEnable()
+    protected virtual void OnEnable()
     {
         //타임 변수 초기화
         time = Time.time;
         var rigidBody = GetComponent<Rigidbody>();
         rigidBody.velocity = Vector3.zero;
+        if (Cam == null)
+            Cam = GameObject.Find("Main Camera");
         rigidBody.AddForce(Cam.transform.forward * speed);
     }
 
 
-    // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         if (Time.time > time + 2 && gameObject.activeSelf)
             gameObject.SetActive(false);
     }
 
 
-    void OnTriggerEnter(Collider col)
+    protected virtual void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "Target")
         {

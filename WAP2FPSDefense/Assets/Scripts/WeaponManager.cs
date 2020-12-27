@@ -58,11 +58,11 @@ public class WeaponManager : MonoBehaviour
         }
         for (int i = 0; i < hands.Length; i++)
         {
-            handDictionary.Add(hands[i].closeWeaponName, hands[i]);
+           // handDictionary.Add(hands[i].closeWeaponName, hands[i]);
         }
         for (int i = 0; i < axes.Length; i++)
         {
-            axeDictionary.Add(axes[i].closeWeaponName, axes[i]);
+            //axeDictionary.Add(axes[i].closeWeaponName, axes[i]);
         }
 
     }
@@ -70,7 +70,7 @@ public class WeaponManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        /*
         if (!isChangeWeapon)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -81,6 +81,7 @@ public class WeaponManager : MonoBehaviour
                 StartCoroutine(ChangeWeaponCoroutine("AXE", "Axe"));
 
         }
+        */
     }
 
     // 무기 교체 코루틴.
@@ -106,7 +107,6 @@ public class WeaponManager : MonoBehaviour
         switch (currentWeaponType)
         {
             case "GUN":
-                theGunController.CancelFineSight();
                 theGunController.CancelReload();
                 GunController.isActivate = false;
                 break;

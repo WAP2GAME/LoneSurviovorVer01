@@ -11,7 +11,7 @@ public class StageInfoContainer : ScriptableObject
     [SerializeField]
     private Vector3 defendObjSpawnPos;
     [SerializeField]
-    private GameObject stagePlane;
+    private GameObject stagePrefab;
 
     [SerializeField]
     private List<Vector3> enemySpawnPosList = new List<Vector3>(10);
@@ -24,22 +24,31 @@ public class StageInfoContainer : ScriptableObject
     {
         get => playerSpawnPos;
     }
+
     public Vector3 DefendObjSpawnPos
     {
         get => defendObjSpawnPos;
     }
+
     public ReadOnlyCollection<Vector3> EnemySpawnPosList
     {
         get => enemySpawnPosList.AsReadOnly();
     }
+
     public float RequireSurviveTime
     {
         get => requireSurviveTime;
     }
+
     public bool IsFinished
     {
         get;
         set;
+    }
+
+    public GameObject StagePrefab
+    {
+        get => StagePrefab;
     }
 }
 

@@ -34,15 +34,3 @@ public abstract class ItemConsumable : ItemBase
     }
 }
 
-[CreateAssetMenu(fileName = "PotionHeal",menuName ="Scriptable Object/Potion Heal",order = 1)]
-public class ItemPotion : ItemConsumable
-{
-    [SerializeField]
-    private int heal = 50;
-    public override void Use()
-    {
-        ObjectStat stat;
-        if (GameStageManger.Instance.Player != null && (stat = GameStageManger.Instance.Player.GetComponent<ObjectStat>()) != null)
-            stat.TakeHeal(heal);
-    }
-}
